@@ -1,15 +1,39 @@
 $(window).load(function(){
-    
-var stDate = new Date();
-var todayCount = 0;
-$('#stopBtn').hide();
+
+if (localStorage.getItem('totalCount') !== null) {
+    var totalCount = +localStorage['totalCount'];
+} else {
+    var totalCount = 0;
+};
+
+if (localStorage.getItem('stDate') !== null) {
+    var stDate = new Date(+localStorage['stDate']);
+    var running = true;
+    $('#stopBtn').show();
+    $('#startBtn').hide();
+    $('#count').show();
+    $('#startTime').text(date2str(stDate));
+} else {
+    var stDate = new Date();
+    var running = false;
+    $('#stopBtn').hide();
+    $('#startBtn').show();
+    $('#count').hide();
+    $('#totalCount').text(ms2str(totalCount));
+};
+
+if (localStorage.getItem('savedTimes') !== null) {
+    $('#savedTimes').html(localStorage['savedTimes']);
+};
+
 setInterval(tick, 1000);
+tick();
 
 $(document).keyup(function(event){
     if (event.keyCode == 27 && $('#stopBtn').is(':visible')) {
         stopTimer();
     }
-    
+
     if (event.keyCode == 13 && $('#startBtn').is(':visible')) {
         startTimer();
     }
@@ -19,35 +43,56 @@ $('#startBtn').click(startTimer);
 
 $('#stopBtn').click(stopTimer);
 
+$('#resetBtn').click(function(){
+    running = false;
+    totalCount = 0;
+    stDate = new Date();
+    $('#stopBtn').hide();
+    $('#startBtn').show();
+    $('#count').hide();
+    $('#totalCount').text('00 sec');
+    $('#savedTimes').empty();
+    localStorage.removeItem('stDate');
+    localStorage.removeItem('savedTimes');
+    localStorage.removeItem('totalCount');
+    return false;
+});
+
 function tick(){
     var d = new Date();
     $('#timer').text(date2str(d));
-    if ($('#stopBtn').is(':visible')) {
-        $('#todayCount').text(ms2str(todayCount + (d - stDate)));
+    if (running) {
+        $('#totalCount').text(ms2str(totalCount + (d - stDate)));
     }
 }
 
 function startTimer() {
     stDate = new Date();
-    var t = '<p>'
-          + date2str(stDate)
-          + ' - <span id="timer"></span></p>';
-    $(t).addClass("count").prependTo('#savedTimes');
+    $('#startTime').text(date2str(stDate));
     tick();
-    $('a').toggle();
+    $('#count').show();
+    $('#stopBtn').show();
+    $('#startBtn').hide();
+    running = true;
+    localStorage['stDate'] = +stDate;
     return false;
 }
 
 function stopTimer() {
+    $('#count').hide();
     var d = new Date();
-    var t = '[<i>' + ms2str(d - stDate) + '</i>] '
+    var t = '<p>[<i>' + ms2str(d - stDate) + '</i>] '
            + date2str(stDate)
-           + ' - ' + date2str(d);
-    $('#timer').remove();
-    $('.count').empty().append(t).removeClass('count');
-    todayCount += (d - stDate);
-    $('#todayCount').text(ms2str(todayCount));
-    $('a').toggle();
+           + ' - ' + date2str(d) + '</p>';
+    $('#savedTimes').prepend(t);
+    localStorage['savedTimes'] = $('#savedTimes').html();
+    totalCount += (d - stDate);
+    localStorage['totalCount'] = totalCount;
+    $('#totalCount').text(ms2str(totalCount));
+    $('#stopBtn').hide();
+    $('#startBtn').show();
+    running = false;
+    localStorage.removeItem('stDate');
     return false;
 }
 
@@ -62,7 +107,7 @@ function date2str(d) {
 }
 
 function ms2str(ms) {
-    if (!(typeof ms == 'number' && ms > 0)) {
+    if (!(typeof ms == 'number' && ms >= 0)) {
         return 'Error!';
     }
     var ss = Math.floor(ms / 1000);
