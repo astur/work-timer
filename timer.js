@@ -5,6 +5,20 @@ var todayCount = 0;
 $('#stopBtn').hide();
 setInterval(tick, 1000);
 
+$(document).keyup(function(event){
+    if (event.keyCode == 27 && $('#stopBtn').is(':visible')) {
+        stopTimer();
+    }
+    
+    if (event.keyCode == 13 && $('#startBtn').is(':visible')) {
+        startTimer();
+    }
+ });
+
+$('#startBtn').click(startTimer);
+
+$('#stopBtn').click(stopTimer);
+
 function tick(){
     var d = new Date();
     $('#timer').text(date2str(d));
@@ -13,7 +27,7 @@ function tick(){
     }
 }
 
-$('#startBtn').click(function () {
+function startTimer() {
     stDate = new Date();
     var t = '<p>'
           + date2str(stDate)
@@ -22,9 +36,9 @@ $('#startBtn').click(function () {
     tick();
     $('a').toggle();
     return false;
-});
+}
 
-$('#stopBtn').click(function () {
+function stopTimer() {
     var d = new Date();
     var t = '[<i>' + ms2str(d - stDate) + '</i>] '
            + date2str(stDate)
@@ -35,7 +49,7 @@ $('#stopBtn').click(function () {
     $('#todayCount').text(ms2str(todayCount));
     $('a').toggle();
     return false;
-});
+}
 
 function lz(t) {
     return (t < 10) ? '0' + t : '' + t;
@@ -67,6 +81,5 @@ function ms2str(ms) {
     }
     return Math.floor(hh / 24) + ' day(s)';
 }
-
 
 });
