@@ -32,10 +32,10 @@ if (localStorage.getItem('stDate') !== null) {
 };
 
 if (localStorage.getItem('savedTimes') !== null) {
-    var sT = JSON.parse(localStorage['savedTimes']);
-    $savedTimes.html(pST());
+    var savedTimes = JSON.parse(localStorage['savedTimes']);
+    displaySavedTimes();
 } else {
-    var sT = [];
+    var savedTimes = [];
 };
 
 setInterval(tick, 1000);
@@ -59,7 +59,7 @@ $resetBtn.click(function(){
     running = false;
     totalCount = 0;
     stDate = new Date();
-    sT = [];
+    savedTimes = [];
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
@@ -92,9 +92,9 @@ function startTimer() {
 function stopTimer() {
     $count.hide();
     var d = new Date();
-    sT.push([+stDate, +d]);
-    localStorage['savedTimes'] = JSON.stringify(sT);
-    $savedTimes.html(pST());
+    savedTimes.unshift([+stDate, +d]);
+    localStorage['savedTimes'] = JSON.stringify(savedTimes);
+    displaySavedTimes();
     totalCount += (d - stDate);
     localStorage['totalCount'] = totalCount;
     $totalCount.text(ms2str(totalCount));
@@ -105,13 +105,14 @@ function stopTimer() {
     return false;
 }
 
-function pST() {
+function displaySavedTimes() {
     var p = '';
     var s = '<p>[<i>%s</i>] %s - %s</p>';
-    for(var i=0; i<sT.length; i++) {
-        p = sprintf(s, ms2str(sT[i][1] - sT[i][0]), date2str(sT[i][0]), date2str(sT[i][1])) + p;
+    for(var i=0; i<savedTimes.length; i++) {
+        p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
+            date2str(savedTimes[i][0]), date2str(savedTimes[i][1]));
     }
-    return p;
+    $savedTimes.html(p);
 }
 
 function sprintf(f) {
