@@ -12,6 +12,35 @@ p {
   color: #666666;
 }
 
+#savedTimes p {
+  padding: 15px;
+  margin: 0;
+}
+
+#savedTimes p:hover {
+  background: #eeffee;
+}
+
+.e, .x {
+    visibility: hidden;
+    text-decoration:none;
+    padding: 5px 10px;
+}
+
+.e {
+    color: #ffffff;
+    background: #009900;
+}
+
+.x {
+    color: #ffffff;
+    background: #ee0000;
+}
+
+#savedTimes p:hover .e, #savedTimes p:hover .x {
+    visibility: visible;
+}
+
 #timer, #todayCount {
   font-size: 36px;
   font-weight: bold;

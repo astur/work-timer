@@ -107,12 +107,21 @@ function stopTimer() {
 
 function displaySavedTimes() {
     var p = '';
-    var s = '<p>[<i>%s</i>] %s - %s</p>';
+    var s = '<p><span>[<i>%s</i>] %s - %s</span> %s</p>';
+    var a = '<a class="e" href="#">e</a> <a class="x" href="#">x</a>'
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
-            date2str(savedTimes[i][0]), date2str(savedTimes[i][1]));
+            date2str(savedTimes[i][0]), date2str(savedTimes[i][1]), a);
     }
     $savedTimes.html(p);
+    $('.e').click(function() {
+        var n = $("#savedTimes > p").index($(this).parent());
+        return false;
+    });
+    $('.x').click(function() {
+        var n = $("#savedTimes > p").index($(this).parent());
+        return false;
+    });
 }
 
 function sprintf(f) {
