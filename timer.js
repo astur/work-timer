@@ -42,11 +42,11 @@ setInterval(tick, 1000);
 tick();
 
 $(document).keyup(function(event){
-    if (event.keyCode == 27 && $('#stopBtn').is(':visible')) {
+    if (event.keyCode == 27 && running) {
         stopTimer();
     }
 
-    if (event.keyCode == 13 && $('#startBtn').is(':visible')) {
+    if (event.keyCode == 13 && !running) {
         startTimer();
     }
  });
