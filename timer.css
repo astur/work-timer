@@ -4,7 +4,7 @@
   font-family: Arial, Sans-serif;
 }
 
-p {
+p, .stLine {
   text-align: center;
 }
 
@@ -12,12 +12,12 @@ p {
   color: #666666;
 }
 
-#savedTimes p {
+.stLine {
   padding: 15px;
   margin: 0;
 }
 
-#savedTimes p:hover {
+.stLine:hover {
   background: #eeffee;
 }
 
@@ -37,7 +37,7 @@ p {
     background: #ee0000;
 }
 
-#savedTimes p:hover .e, #savedTimes p:hover .x {
+.stLine:hover .e, .stLine:hover .x {
     visibility: visible;
 }
 

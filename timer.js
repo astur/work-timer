@@ -105,7 +105,7 @@ function stopTimer() {
 function displaySavedTimes() {
     var p = '';
     var t = 0;
-    var s = '<p><span>[<i>%s</i>] %s - %s</span> %s</p>';
+    var s = '<div class="stLine"><span>[<i>%s</i>] %s - %s</span> %s</div>';
     var a = '<a class="e" href="#">e</a> <a class="x" href="#">x</a>'
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
@@ -118,11 +118,60 @@ function displaySavedTimes() {
     tick();
     $savedTimes.html(p);
     $('.e').click(function() {
-        var n = $("#savedTimes > p").index($(this).parent());
+        var $stLine = $(this).parent();
+        var n = $(".stLine").index($stLine);
+        var stMin = (n < savedTimes.length - 1) ?
+            savedTimes[n+1][1] :
+            (savedTimes[n][0] - 3600000);
+        var stMax = (n <= 0) ?
+            (running ? stDate : (new Date())) :
+            savedTimes[n-1][0];
+        var sliderMin, sliderMax;
+
+        var s = '<div>' + $stLine.children('span').text() + '</div>';
+        s += '<div id="sliderVals"></div>';
+        s += '<div id="slider"></div>';
+        s += '<div id="sliderRange"></div>';
+        s += '<div><a id="okBtn" href="#">OK</a>';
+        s += '<a id="cancelBtn" href="#">Cancel</a></div>';
+        $stLine.html(s)
+
+        $("#slider").slider({
+            range: true,
+            min: stMin,
+            max: stMax,
+            values: [savedTimes[n][0], savedTimes[n][1]],
+            slide: sliderMove
+        });
+        $('#sliderRange').text(date2str(stMin) + ' <===> ' + date2str(stMax));
+        sliderMove();
+        function sliderMove( e, ui ) {
+            sliderMin = $("#slider").slider("values", 0);
+            sliderMax = $("#slider").slider("values", 1);
+            $("#sliderVals").text(
+                '[' +
+                ms2str(sliderMax - sliderMin) +
+                '] ' +
+                date2str(sliderMin) +
+                " - " +
+                date2str(sliderMax)
+            );
+        }
+
+        $('#okBtn').click(function(){
+            savedTimes[n] = [sliderMin, sliderMax];
+            localStorage['savedTimes'] = JSON.stringify(savedTimes);
+            displaySavedTimes();
+            return false;
+        });
+        $('#cancelBtn').click(function(){
+            displaySavedTimes();
+            return false;
+        });
         return false;
     });
     $('.x').click(function() {
-        var n = $("#savedTimes > p").index($(this).parent());
+        var n = $(".stLine").index($(this).parent());
         savedTimes.splice(n,1);
         localStorage['savedTimes'] = JSON.stringify(savedTimes);
         displaySavedTimes();
