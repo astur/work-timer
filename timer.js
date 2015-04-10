@@ -123,6 +123,9 @@ function displaySavedTimes() {
     });
     $('.x').click(function() {
         var n = $("#savedTimes > p").index($(this).parent());
+        savedTimes.splice(n,1);
+        localStorage['savedTimes'] = JSON.stringify(savedTimes);
+        displaySavedTimes();
         return false;
     });
 }
