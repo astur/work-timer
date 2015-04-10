@@ -105,7 +105,7 @@ function stopTimer() {
 function displaySavedTimes() {
     var p = '';
     var t = 0;
-    var s = '<div class="stLine"><span>[<i>%s</i>] %s - %s</span> %s</div>';
+    var s = '<div class="stLine h"><span>[<i>%s</i>] %s - %s</span> %s</div>';
     var a = '<a class="e" href="#">e</a> <a class="x" href="#">x</a>'
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
@@ -119,6 +119,7 @@ function displaySavedTimes() {
     $savedTimes.html(p);
     $('.e').click(function() {
         var $stLine = $(this).parent();
+        $(".stLine").removeClass('h');
         var n = $(".stLine").index($stLine);
         var stMin = (n < savedTimes.length - 1) ?
             savedTimes[n+1][1] :

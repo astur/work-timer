@@ -17,7 +17,7 @@ p, .stLine {
   margin: 0;
 }
 
-.stLine:hover {
+.h:hover {
   background: #eeffee;
 }
 
@@ -37,7 +37,7 @@ p, .stLine {
     background: #ee0000;
 }
 
-.stLine:hover .e, .stLine:hover .x {
+.h:hover .e, .h:hover .x {
     visibility: visible;
 }
 
