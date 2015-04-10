@@ -91,28 +91,31 @@ function startTimer() {
 
 function stopTimer() {
     $count.hide();
+    running = false;
     var d = new Date();
     savedTimes.unshift([+stDate, +d]);
     localStorage['savedTimes'] = JSON.stringify(savedTimes);
     displaySavedTimes();
-    totalCount += (d - stDate);
-    localStorage['totalCount'] = totalCount;
-    $totalCount.text(ms2str(totalCount));
     $stopBtn.hide();
     $startBtn.show();
-    running = false;
     localStorage.removeItem('stDate');
     return false;
 }
 
 function displaySavedTimes() {
     var p = '';
+    var t = 0;
     var s = '<p><span>[<i>%s</i>] %s - %s</span> %s</p>';
     var a = '<a class="e" href="#">e</a> <a class="x" href="#">x</a>'
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
             date2str(savedTimes[i][0]), date2str(savedTimes[i][1]), a);
+        t = t + savedTimes[i][1] - savedTimes[i][0];
     }
+    totalCount = t;
+    localStorage['totalCount'] = totalCount;
+    $totalCount.text(ms2str(totalCount));
+    tick();
     $savedTimes.html(p);
     $('.e').click(function() {
         var n = $("#savedTimes > p").index($(this).parent());
