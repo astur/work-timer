@@ -9,7 +9,7 @@ var $startTime = $('#startTime');
 var $timer = $('#timer');
 var $savedTimes = $('#savedTimes');
 
-var totalCount, stDate, running, savedTimes;
+var totalCount, stDate, running, savedTimes, tickID;
 
 if (localStorage.getItem('savedTimes') !== null) {
     savedTimes = JSON.parse(localStorage['savedTimes']);
@@ -25,6 +25,7 @@ if (localStorage.getItem('stDate') !== null) {
     $stopBtn.show();
     $startBtn.hide();
     $count.show();
+    tickID = setInterval(tick, 100);
     $startTime.text(date2str(stDate));
 } else {
     stDate = new Date();
@@ -34,9 +35,6 @@ if (localStorage.getItem('stDate') !== null) {
     $count.hide();
     $totalCount.text(ms2str(totalCount));
 };
-
-setInterval(tick, 1000);
-tick();
 
 $(document).keyup(function(event){
     if (event.keyCode == 27 && running) {
@@ -54,6 +52,7 @@ $stopBtn.click(stopTimer);
 
 $resetBtn.click(function(){
     running = false;
+    clearInterval(tickID);
     totalCount = 0;
     stDate = new Date();
     savedTimes = [];
@@ -67,18 +66,16 @@ $resetBtn.click(function(){
 });
 
 function tick(){
-    if (running) {
-        var d = new Date();
-        $timer.text(date2str(d));
-        $totalCount.text(ms2str(totalCount + (d - stDate)));
-    }
+    var d = new Date();
+    $timer.text(date2str(d));
+    $totalCount.text(ms2str(totalCount + (d - stDate)));
 }
 
 function startTimer() {
     stDate = new Date();
     $startTime.text(date2str(stDate));
     running = true;
-    tick();
+    tickID = setInterval(tick, 100);
     $count.show();
     $stopBtn.show();
     $startBtn.hide();
@@ -89,6 +86,7 @@ function startTimer() {
 function stopTimer() {
     $count.hide();
     running = false;
+    clearInterval(tickID);
     var d = new Date();
     savedTimes.unshift([+stDate, +d]);
     localStorage['savedTimes'] = JSON.stringify(savedTimes);
@@ -119,8 +117,9 @@ function displaySavedTimes() {
         t = t + savedTimes[i][1] - savedTimes[i][0];
     }
     totalCount = t;
-    $totalCount.text(ms2str(totalCount));
-    tick();
+    if (!running) {
+        $totalCount.text(ms2str(totalCount));
+    };
     $savedTimes.html(p);
 
     $('.e').click(function() {
