@@ -11,13 +11,8 @@ var $savedTimes = $('#savedTimes');
 
 var totalCount, stDate, running, savedTimes, tickID;
 
-if (localStorage.getItem('savedTimes') !== null) {
-    savedTimes = JSON.parse(localStorage['savedTimes']);
-    displaySavedTimes();
-} else {
-    savedTimes = [];
-    totalCount = 0;
-};
+savedTimes = localStorage.getItem('savedTimes') !== null ?
+    JSON.parse(localStorage['savedTimes']) : [];
 
 if (localStorage.getItem('stDate') !== null) {
     stDate = new Date(+localStorage['stDate']);
@@ -33,8 +28,9 @@ if (localStorage.getItem('stDate') !== null) {
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
-    $totalCount.text(ms2str(totalCount));
 };
+
+displaySavedTimes();
 
 $(document).keyup(function(event){
     if (event.keyCode == 27 && running) {
@@ -59,8 +55,7 @@ $resetBtn.click(function(){
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
-    $totalCount.text('00 sec');
-    $savedTimes.empty();
+    displaySavedTimes();
     localStorage.clear();
     return false;
 });
