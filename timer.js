@@ -129,7 +129,7 @@ function displaySavedTimes() {
 
     $('.e').click(function() {
         var $stLine = $(this).parent().parent();
-        var n = $(".stLine").index($stLine);
+        var n = $('.stLine').index($stLine);
         var stMin = (n < savedTimes.length - 1) ?
             savedTimes[n+1][1] :
             (savedTimes[n][0] - 3600000);
@@ -154,7 +154,7 @@ function displaySavedTimes() {
 
         $stLine.html(s).addClass('well');
 
-        $("#theSlider").slider({
+        $('#theSlider').slider({
             min: stMin,
             max: stMax,
             value: [savedTimes[n][0], savedTimes[n][1]],
@@ -189,7 +189,7 @@ function displaySavedTimes() {
         return false;
     });
     $('.x').click(function() {
-        var n = $(".stLine").index($(this).parent().parent());
+        var n = $('.stLine').index($(this).parent().parent());
         savedTimes.splice(n,1);
         localStorage['savedTimes'] = JSON.stringify(savedTimes);
         displaySavedTimes();
