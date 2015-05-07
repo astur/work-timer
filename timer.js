@@ -128,7 +128,7 @@ function displaySavedTimes() {
     $savedTimes.html(p);
 
     $('.e').click(function() {
-        var $stLine = $(this).parent().parent();
+        var $stLine = $(this).closest('.stLine');
         var n = $('.stLine').index($stLine);
         var stMin = (n < savedTimes.length - 1) ?
             savedTimes[n+1][1] :
@@ -189,7 +189,7 @@ function displaySavedTimes() {
         return false;
     });
     $('.x').click(function() {
-        var n = $('.stLine').index($(this).parent().parent());
+        var n = $('.stLine').index($(this).closest('.stLine'));
         savedTimes.splice(n,1);
         localStorage['savedTimes'] = JSON.stringify(savedTimes);
         displaySavedTimes();
