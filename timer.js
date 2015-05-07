@@ -9,33 +9,30 @@ var $startTime = $('#startTime');
 var $timer = $('#timer');
 var $savedTimes = $('#savedTimes');
 
-if (localStorage.getItem('totalCount') !== null) {
-    var totalCount = +localStorage['totalCount'];
+var totalCount, stDate, running, savedTimes;
+
+if (localStorage.getItem('savedTimes') !== null) {
+    savedTimes = JSON.parse(localStorage['savedTimes']);
+    displaySavedTimes();
 } else {
-    var totalCount = 0;
+    savedTimes = [];
+    totalCount = 0;
 };
 
 if (localStorage.getItem('stDate') !== null) {
-    var stDate = new Date(+localStorage['stDate']);
-    var running = true;
+    stDate = new Date(+localStorage['stDate']);
+    running = true;
     $stopBtn.show();
     $startBtn.hide();
     $count.show();
     $startTime.text(date2str(stDate));
 } else {
-    var stDate = new Date();
-    var running = false;
+    stDate = new Date();
+    running = false;
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
     $totalCount.text(ms2str(totalCount));
-};
-
-if (localStorage.getItem('savedTimes') !== null) {
-    var savedTimes = JSON.parse(localStorage['savedTimes']);
-    displaySavedTimes();
-} else {
-    var savedTimes = [];
 };
 
 setInterval(tick, 1000);
@@ -122,7 +119,6 @@ function displaySavedTimes() {
         t = t + savedTimes[i][1] - savedTimes[i][0];
     }
     totalCount = t;
-    localStorage['totalCount'] = totalCount;
     $totalCount.text(ms2str(totalCount));
     tick();
     $savedTimes.html(p);
