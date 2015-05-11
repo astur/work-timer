@@ -123,7 +123,7 @@ function displaySavedTimes() {
 
         $('.e, .x').hide();
 
-        $stLine.html(s).addClass('well');
+        $stLine.replaceWith(s);
 
         $('#theSlider').slider({
             min: stMin,
