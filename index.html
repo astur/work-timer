@@ -8,6 +8,43 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="lib/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="timer.js"></script>
+    <script id="stLineTemplate" type="text/html">
+        <div class="stLine row">
+            <div class="col-xs-4 text-right">
+                <span class="badge">
+                    %s
+                </span>
+            </div>
+            <div class="col-xs-4 lead text-nowrap">
+                %s - %s
+            </div>
+            <div class="col-xs-4">
+                <a class="e btn btn-success btn-xs">
+                    <span class="glyphicon glyphicon-pencil">
+                    </span>
+                </a>
+                <a class="x btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove">
+                    </span>
+                </a>
+            </div>
+        </div>
+    </script>
+    <script id="sliderTemplate" type="text/html">
+        <div class="col-xs-8 text-center">
+            <input id="theSlider" type="text" value="" />
+        </div>
+        <div class="col-xs-4">
+            <a id="okBtn" class="btn btn-xs btn-success">
+                <span class="glyphicon glyphicon-ok">
+                </span> Ok
+            </a> 
+            <a id="cancelBtn" class="btn btn-xs btn-danger">
+                <span class="glyphicon glyphicon-remove">
+                </span> Cancel
+            </a>
+        </div>
+    </script>
 </head>
 <body>
     <div class="container">

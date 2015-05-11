@@ -95,16 +95,7 @@ function stopTimer() {
 function displaySavedTimes() {
     var p = '';
     var t = 0;
-    var s = '<div class="stLine row">';
-    s += '<div class="col-xs-4 text-right">';
-    s += '<span class="badge">%s</span></div>';
-    s += '<div class="col-xs-4 lead text-nowrap">%s - %s</div>';
-    s += '<div class="col-xs-4">';
-    s += '<a class="e btn btn-success btn-xs">';
-    s += '<span class="glyphicon glyphicon-pencil">';
-    s += '</span></a> <a class="x btn btn-danger btn-xs">';
-    s += '<span class="glyphicon glyphicon-remove">';
-    s += '</span></a></div></div>';
+    var s = $('#stLineTemplate').text();
 
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
@@ -128,17 +119,7 @@ function displaySavedTimes() {
             savedTimes[n-1][0];
         var sliderMin = savedTimes[n][0];
         var sliderMax = savedTimes[n][1];
-        var s = '<div class="col-xs-8 text-center">';
-        s += '<input id="theSlider" type="text" value="" />';
-        s += '</div>';
-        s += '<div class="col-xs-4">';
-        s += '<a id="okBtn" class="btn btn-xs btn-success">';
-        s += '<span class="glyphicon glyphicon-ok">';
-        s += '</span> Ok</a> ';
-        s += '<a id="cancelBtn" class="btn btn-xs btn-danger">';
-        s += '<span class="glyphicon glyphicon-remove">';
-        s += '</span> Cancel</a>';
-        s += '</div>';
+        var s = $('#sliderTemplate').text();
 
         $('.e, .x').hide();
 
