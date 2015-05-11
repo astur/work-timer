@@ -9,43 +9,38 @@
     <script type="text/javascript" src="lib/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="timer.js"></script>
     <script id="stLineTemplate" type="text/html">
-        <div class="stLine row">
-            <div class="col-xs-4 text-right">
-                <span class="badge">
-                    %s
-                </span>
-            </div>
-            <div class="col-xs-4 lead text-nowrap">
-                %s - %s
-            </div>
-            <div class="col-xs-4">
+        <tr class="stLine active">
+            <td class="text-right"><span class="badge">%s</span></td>
+            <td class="lead text-center">%s - %s</td>
+            <td>
                 <a class="e btn btn-success btn-xs">
-                    <span class="glyphicon glyphicon-pencil">
-                    </span>
+                    <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <a class="x btn btn-danger btn-xs">
-                    <span class="glyphicon glyphicon-remove">
-                    </span>
+                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
-            </div>
-        </div>
+            </td>
+        </tr>
     </script>
     <script id="sliderTemplate" type="text/html">
-        <div class="stLine row well">
-            <div class="col-xs-8 text-center">
-                <input id="theSlider" type="text" value="" />
-            </div>
-            <div class="col-xs-4">
-                <a id="okBtn" class="btn btn-xs btn-success">
-                    <span class="glyphicon glyphicon-ok">
-                    </span> Ok
-                </a> 
-                <a id="cancelBtn" class="btn btn-xs btn-danger">
-                    <span class="glyphicon glyphicon-remove">
-                    </span> Cancel
-                </a>
-            </div>
-        </div>
+        <tr>
+            <td colspan="3">
+                <hr>
+                <div class="row">
+                    <div class="col-xs-8 text-center">
+                        <input id="theSlider" type="text" value="" />
+                    </div>
+                    <div class="col-xs-4">
+                        <a id="okBtn" class="btn btn-xs btn-success">
+                            <span class="glyphicon glyphicon-ok">
+                            </span> Ok</a>
+                        <a id="cancelBtn" class="btn btn-xs btn-danger">
+                            <span class="glyphicon glyphicon-remove">
+                            </span> Cancel</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
     </script>
 </head>
 <body>
@@ -65,8 +60,16 @@
             - <span id="timer"></span>
         </h3>
 
-        <div id="savedTimes">
-        </div>
+        <table class="table">
+            <thead>
+                <tr class="active">
+                    <th class="text-right">Time</th>
+                    <th class="text-center">From - To</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="savedTimes"></tbody>
+        </table>
     </div>
 </body>
 </html>
