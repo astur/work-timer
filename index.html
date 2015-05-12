@@ -42,6 +42,17 @@
             </td>
         </tr>
     </script>
+    <script id="periodTemplate" type="text/html">
+        <tr class="prdLine success">
+            <td><span class="badge">%s</span></td>
+            <td>%s - %s</td>
+            <td>
+                <a class="xx btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </td>
+        </tr>
+    </script>
 </head>
 <body>
     <div class="container">
@@ -60,16 +71,18 @@
             - <span id="timer"></span>
         </h3>
 
-        <table class="table">
-            <thead>
-                <tr class="active">
-                    <th class="text-right">Time</th>
-                    <th class="text-center">From - To</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="savedTimes"></tbody>
-        </table>
+        <div class="row">
+            <div class="col-xs-7 table-responsive">
+                <table class="table">
+                    <tbody id="savedTimes"></tbody>
+                </table>
+            </div>
+            <div class="col-xs-5 table-responsive">
+                <table class="table table-condensed">
+                    <tbody id="savedPeriods"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

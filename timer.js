@@ -8,11 +8,15 @@ var $count = $('#count');
 var $startTime = $('#startTime');
 var $timer = $('#timer');
 var $savedTimes = $('#savedTimes');
+var $savedPeriods = $('#savedPeriods');
 
-var totalCount, stDate, running, savedTimes, tickID;
+var totalCount, stDate, running, savedTimes, savedPeriods, tickID;
 
 savedTimes = localStorage.getItem('savedTimes') !== null ?
     JSON.parse(localStorage['savedTimes']) : [];
+
+savedPeriods = localStorage.getItem('savedPeriods') !== null ?
+    JSON.parse(localStorage['savedPeriods']) : [];
 
 if (localStorage.getItem('stDate') !== null) {
     stDate = new Date(+localStorage['stDate']);
@@ -31,6 +35,7 @@ if (localStorage.getItem('stDate') !== null) {
 };
 
 displaySavedTimes();
+displaySavedPeriods();
 
 $(document).keyup(function(event){
     if (event.keyCode == 27 && running) {
@@ -51,12 +56,15 @@ $resetBtn.click(function(){
     clearInterval(tickID);
     totalCount = 0;
     stDate = new Date();
+    savedPeriods.unshift([savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
+    displaySavedPeriods();
     savedTimes = [];
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
     displaySavedTimes();
     localStorage.clear();
+    localStorage['savedPeriods'] = JSON.stringify(savedPeriods);
     return false;
 });
 
@@ -168,6 +176,28 @@ function displaySavedTimes() {
     });
 }
 
+function displaySavedPeriods() {
+    var p = '';
+    var s = $('#periodTemplate').text();
+    for(var i=0; i<savedPeriods.length; i++) {
+        p = p + sprintf(s, ms2str(savedPeriods[i][1] - savedPeriods[i][0]),
+            date2Str(savedPeriods[i][0]), date2Str(savedPeriods[i][1]));
+    }
+    $savedPeriods.html(p);
+
+    if (!p) {
+        localStorage.removeItem('savedPeriods');
+    };
+    
+    $('.xx').click(function() {
+        var n = $('.prdLine').index($(this).closest('.prdLine'));
+        savedPeriods.splice(n,1);
+        localStorage['savedPeriods'] = JSON.stringify(savedPeriods);
+        displaySavedPeriods();
+        return false;
+    });
+}
+
 function sprintf(f) {
     for( var i=1; i < arguments.length; i++ ) {
         f = f.replace(/%s/, arguments[i]);
@@ -182,8 +212,17 @@ function lz(t) {
 function date2str(d) {
     var d = new Date(d);
     return lz(d.getHours()) + ':'
-         + lz(d.getMinutes()) + ':'
-         + lz(d.getSeconds());
+        + lz(d.getMinutes()) + ':'
+        + lz(d.getSeconds());
+}
+
+function date2Str(d) {
+    var d = new Date(d);
+    return lz(d.getDate()) + '.'
+        + lz(d.getMonth()+1) + ' '
+        + lz(d.getHours()) + ':'
+        + lz(d.getMinutes()) + ':'
+        + lz(d.getSeconds());
 }
 
 function ms2str(ms) {
