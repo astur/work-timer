@@ -10,11 +10,10 @@ Web-timer is localStorage based, so no any server-side sync is there. And no com
 
 * __v0.1.0__ "Just works".
 * __v0.1.1__ Bootstrap style.
+* __v0.2.0__ History added & some refactoring.
 
 ###TODO:
 
-* Add history of work days (save on reset)
-* Move html strings out of js
 * Make storage sync with server side
-* Refactoring (don't store `totalCount`, `$.closest` instead `$.parent`, one button for _Start/Stop_, table layout for `savedTimes`, standard quotes, etc.)
+* Refactoring (one button for _Start/Stop_ etc.)
 
