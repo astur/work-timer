@@ -19,7 +19,7 @@ savedPeriods = localStorage.getItem('savedPeriods') !== null ?
     JSON.parse(localStorage['savedPeriods']) : [];
 
 if (localStorage.getItem('stDate') !== null) {
-    stDate = new Date(+localStorage['stDate']);
+    stDate = +localStorage['stDate'];
     running = true;
     $stopBtn.show();
     $startBtn.hide();
@@ -27,7 +27,7 @@ if (localStorage.getItem('stDate') !== null) {
     tickID = setInterval(tick, 100);
     $startTime.text(date2str(stDate));
 } else {
-    stDate = new Date();
+    stDate = Date.now();
     running = false;
     $stopBtn.hide();
     $startBtn.show();
@@ -55,7 +55,7 @@ $resetBtn.click(function(){
     running = false;
     clearInterval(tickID);
     savedPeriods.unshift([totalCount, savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
-    stDate = new Date();
+    stDate = Date.now();
     displaySavedPeriods();
     savedTimes = [];
     $stopBtn.hide();
@@ -68,20 +68,20 @@ $resetBtn.click(function(){
 });
 
 function tick(){
-    var d = new Date();
+    var d = Date.now();
     $timer.text(date2str(d));
     $totalCount.text(ms2str(totalCount + (d - stDate)));
 }
 
 function startTimer() {
-    stDate = new Date();
+    stDate = Date.now();
     $startTime.text(date2str(stDate));
     running = true;
     tickID = setInterval(tick, 100);
     $count.show();
     $stopBtn.show();
     $startBtn.hide();
-    localStorage['stDate'] = +stDate;
+    localStorage['stDate'] = stDate;
     return false;
 }
 
@@ -89,8 +89,8 @@ function stopTimer() {
     $count.hide();
     running = false;
     clearInterval(tickID);
-    var d = new Date();
-    savedTimes.unshift([+stDate, +d]);
+    var d = Date.now();
+    savedTimes.unshift([stDate, d]);
     localStorage['savedTimes'] = JSON.stringify(savedTimes);
     displaySavedTimes();
     $stopBtn.hide();
@@ -121,7 +121,7 @@ function displaySavedTimes() {
             savedTimes[n+1][1] :
             (savedTimes[n][0] - 3600000);
         var stMax = (n <= 0) ?
-            (running ? stDate : (new Date())) :
+            (running ? stDate : (Date.now())) :
             savedTimes[n-1][0];
         var sliderMin = savedTimes[n][0];
         var sliderMax = savedTimes[n][1];
