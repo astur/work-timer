@@ -55,7 +55,6 @@ $resetBtn.click(function(){
     running = false;
     clearInterval(tickID);
     savedPeriods.unshift([totalCount, savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
-    totalCount = 0;
     stDate = new Date();
     displaySavedPeriods();
     savedTimes = [];
@@ -102,15 +101,14 @@ function stopTimer() {
 
 function displaySavedTimes() {
     var p = '';
-    var t = 0;
     var s = $('#stLineTemplate').text();
+    totalCount = 0;
 
     for(var i=0; i<savedTimes.length; i++) {
         p = p + sprintf(s, ms2str(savedTimes[i][1] - savedTimes[i][0]),
             date2str(savedTimes[i][0]), date2str(savedTimes[i][1]));
-        t = t + savedTimes[i][1] - savedTimes[i][0];
+        totalCount += (savedTimes[i][1] - savedTimes[i][0]);
     }
-    totalCount = t;
     if (!running) {
         $totalCount.text(ms2str(totalCount));
     };
