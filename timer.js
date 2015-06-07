@@ -12,14 +12,13 @@ var $savedPeriods = $('#savedPeriods');
 
 var totalCount, stDate, running, savedTimes, savedPeriods, tickID;
 
-savedTimes = localStorage.getItem('savedTimes') !== null ?
-    JSON.parse(localStorage['savedTimes']) : [];
+savedTimes = JSON.parse(localStorage['savedTimes'] || '[]');
 
-savedPeriods = localStorage.getItem('savedPeriods') !== null ?
-    JSON.parse(localStorage['savedPeriods']) : [];
+savedPeriods = JSON.parse(localStorage['savedPeriods'] || '[]');
 
-if (localStorage.getItem('stDate') !== null) {
-    stDate = +localStorage['stDate'];
+stDate = JSON.parse(localStorage['stDate'] || 'false');
+
+if (stDate) {
     running = true;
     $stopBtn.show();
     $startBtn.hide();
@@ -27,7 +26,6 @@ if (localStorage.getItem('stDate') !== null) {
     tickID = setInterval(tick, 100);
     $startTime.text(date2str(stDate));
 } else {
-    stDate = Date.now();
     running = false;
     $stopBtn.hide();
     $startBtn.show();
@@ -54,15 +52,18 @@ $stopBtn.click(stopTimer);
 $resetBtn.click(function(){
     running = false;
     clearInterval(tickID);
-    savedPeriods.unshift([totalCount, savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
-    stDate = Date.now();
+    if (savedTimes.length > 0) {
+        savedPeriods.unshift([totalCount, savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
+    };
+    stDate = false;
     displaySavedPeriods();
     savedTimes = [];
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
     displaySavedTimes();
-    localStorage.clear();
+    localStorage['stDate'] = JSON.stringify(stDate);
+    localStorage['savedTimes'] = JSON.stringify(savedTimes);
     localStorage['savedPeriods'] = JSON.stringify(savedPeriods);
     return false;
 });
@@ -81,7 +82,7 @@ function startTimer() {
     $count.show();
     $stopBtn.show();
     $startBtn.hide();
-    localStorage['stDate'] = stDate;
+    localStorage['stDate'] = JSON.stringify(stDate);
     return false;
 }
 
@@ -95,7 +96,8 @@ function stopTimer() {
     displaySavedTimes();
     $stopBtn.hide();
     $startBtn.show();
-    localStorage.removeItem('stDate');
+    stDate = false;
+    localStorage['stDate'] = JSON.stringify(stDate);
     return false;
 }
 
@@ -182,10 +184,6 @@ function displaySavedPeriods() {
             date2Str(savedPeriods[i][1]), date2Str(savedPeriods[i][2]));
     }
     $savedPeriods.html(p);
-
-    if (!p) {
-        localStorage.removeItem('savedPeriods');
-    };
     
     $('.xx').click(function() {
         var n = $('.prdLine').index($(this).closest('.prdLine'));
