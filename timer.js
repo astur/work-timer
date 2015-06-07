@@ -10,7 +10,7 @@ var $timer = $('#timer');
 var $savedTimes = $('#savedTimes');
 var $savedPeriods = $('#savedPeriods');
 
-var totalCount, stDate, running, savedTimes, savedPeriods, tickID;
+var totalCount, stDate, savedTimes, savedPeriods, tickID;
 
 savedTimes = JSON.parse(localStorage['savedTimes'] || '[]');
 
@@ -19,14 +19,12 @@ savedPeriods = JSON.parse(localStorage['savedPeriods'] || '[]');
 stDate = JSON.parse(localStorage['stDate'] || 'false');
 
 if (stDate) {
-    running = true;
     $stopBtn.show();
     $startBtn.hide();
     $count.show();
     tickID = setInterval(tick, 100);
     $startTime.text(date2str(stDate));
 } else {
-    running = false;
     $stopBtn.hide();
     $startBtn.show();
     $count.hide();
@@ -36,11 +34,11 @@ displaySavedTimes();
 displaySavedPeriods();
 
 $(document).keyup(function(event){
-    if (event.keyCode == 27 && running) {
+    if (event.keyCode == 27 && stDate) {
         stopTimer();
     }
 
-    if (event.keyCode == 13 && !running) {
+    if (event.keyCode == 13 && !stDate) {
         startTimer();
     }
  });
@@ -50,7 +48,6 @@ $startBtn.click(startTimer);
 $stopBtn.click(stopTimer);
 
 $resetBtn.click(function(){
-    running = false;
     clearInterval(tickID);
     if (savedTimes.length > 0) {
         savedPeriods.unshift([totalCount, savedTimes[savedTimes.length - 1][0], savedTimes[0][1]]);
@@ -77,7 +74,6 @@ function tick(){
 function startTimer() {
     stDate = Date.now();
     $startTime.text(date2str(stDate));
-    running = true;
     tickID = setInterval(tick, 100);
     $count.show();
     $stopBtn.show();
@@ -88,7 +84,6 @@ function startTimer() {
 
 function stopTimer() {
     $count.hide();
-    running = false;
     clearInterval(tickID);
     var d = Date.now();
     savedTimes.unshift([stDate, d]);
@@ -111,7 +106,7 @@ function displaySavedTimes() {
             date2str(savedTimes[i][0]), date2str(savedTimes[i][1]));
         totalCount += (savedTimes[i][1] - savedTimes[i][0]);
     }
-    if (!running) {
+    if (!stDate) {
         $totalCount.text(ms2str(totalCount));
     };
     $savedTimes.html(p);
@@ -123,7 +118,7 @@ function displaySavedTimes() {
             savedTimes[n+1][1] :
             (savedTimes[n][0] - 3600000);
         var stMax = (n <= 0) ?
-            (running ? stDate : (Date.now())) :
+            (stDate || Date.now()) :
             savedTimes[n-1][0];
         var sliderMin = savedTimes[n][0];
         var sliderMax = savedTimes[n][1];
