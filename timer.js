@@ -248,11 +248,6 @@ function StoredObj(sn){
         for(key in inObj){
             this[key] = inObj[key];
         }
-    } else {
-        for(i = 0; i < localStorage.length; i++){
-            this[localStorage.key(i)] = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        }
-        this.save();
     }
 }
 
