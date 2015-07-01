@@ -12,11 +12,7 @@ var $savedPeriods = $('#savedPeriods');
 
 var totalCount, tickID;
 
-var _so = new StoredObj('WorkTimer');
-
-_so.savedTimes = _so.savedTimes || [];
-_so.savedPeriods = _so.savedPeriods || [];
-_so.stDate = _so.stDate || false;
+var _so = new StoredObj('WorkTimer', {savedTimes: [], savedPeriods: [], stDate: false});
 
 if (_so.stDate) {
     $stopBtn.show();
@@ -238,17 +234,23 @@ function ms2str(ms) {
     return Math.floor(hh / 24) + ' day(s)';
 }
 
-function StoredObj(sn){
+function StoredObj(sn, defs){
     var storageName = sn === undefined ? 'myStorage' : sn;
     this.save = function(){
         localStorage[storageName] = JSON.stringify(this);
     }
     if (localStorage.getItem(storageName) !== null) {
         var inObj = JSON.parse(localStorage[storageName]);
-        for(key in inObj){
+        for(var key in inObj){
             this[key] = inObj[key];
         }
     }
+    if (typeof defs === 'object') {
+        for(var key in defs){
+            this[key] = this[key] === undefined ? defs[key] : this[key];
+        }
+        this.save();
+    };
 }
 
 });
