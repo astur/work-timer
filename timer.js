@@ -1,5 +1,7 @@
 $(window).load(function(){
 
+$('body').html($('#mainTemplate').text());
+
 var $startBtn = $('#startBtn');
 var $stopBtn = $('#stopBtn');
 var $resetBtn = $('#resetBtn');
