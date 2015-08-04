@@ -5,10 +5,12 @@
     <title>Work timer</title>
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap-slider.css">
+    <link rel="stylesheet" type="text/css" href="lib/form.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
+    <script src="https://app.userapp.io/js/userapp.client.js"></script>
     <script type="text/javascript" src="lib/bootstrap-slider.min.js"></script>
     <script type="text/javascript" src="lib/util.js"></script>
-    <script type="text/javascript" src="lib/so.js"></script>
+    <script type="text/javascript" src="lib/uappauth.js"></script>
     <script type="text/javascript" src="timer.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script id="stLineTemplate" type="text/html">
@@ -58,7 +60,10 @@
     </script>
     <script id="mainTemplate" type="text/html">
         <div class="container">
-            <h1  class="text-center">Work timer
+            <h6 class="text-center"><span id="username"></span>
+                <a id="logoutBtn" class="btn btn-warning btn-xs">Logout</a>
+            </h6>
+            <h1 class="text-center">Work timer
                 <a id="startBtn" class="btn btn-success btn-lg">Start</a>
                 <a id="stopBtn" class="btn btn-danger btn-lg">Stop</a>
             </h1>
@@ -85,6 +90,19 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </script>
+    <script id="authTemplate" type="text/html">
+        <div class="container">
+            <form class="form" id="authForm">
+                <h3 id="formHeading" class="form-heading">Log in</h3>
+                <div class="form-fields">
+                    <input id="username" type="text" class="form-control" placeholder="Username" required autofocus>
+                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+                    <label><input id="newuser" type="checkbox"> New user</label>
+                </div>
+                <button id="submitBtn" class="form-control btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            </form>
         </div>
     </script>
 </head>

@@ -1,3 +1,7 @@
 $(window).load(function(){
-    workTimer(new StoredObj('WorkTimer', {savedTimes: [], savedPeriods: [], stDate: false}));
+    userAppSPALogin(
+        '55944a9681b6b',
+        'ua_session_token',
+        workTimer,
+        {savedTimes: [], savedPeriods: [], stDate: false});
 });

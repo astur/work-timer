@@ -1,4 +1,4 @@
-function workTimer(_so){
+function workTimer(username, logout, _so){
 
     $('body').html($('#mainTemplate').text());
 
@@ -13,6 +13,9 @@ function workTimer(_so){
     var $savedPeriods = $('#savedPeriods');
 
     var totalCount, tickID;
+
+    $('#logoutBtn').click(logout);
+    $('#username').text(username);
 
     if (_so.stDate) {
         $stopBtn.show();
