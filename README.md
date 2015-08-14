@@ -4,7 +4,11 @@ Web-timer counting how much you work (or doing something else). Like sport timer
 
 Click "Start" when you begin to work and click "Stop" when you take break. You may also click "Reset" if you want. Perfectionists may edit or delete wrong intervals.
 
-Web-timer is localStorage based, so no any server-side sync is there. And no complicated statistics, no history, no archive, no social functionality and no evil boss watching you. It's really easy thing, no rocket science.
+Work-timer use userApp.io for server-side auth and sync. And there is no complicated statistics, no social functionality and no evil boss watching you. It's really easy thing, no rocket science.
+
+###Install
+
+Write your UserApp appId in script.js, upload Work-timer on any static web-server and have fun.
 
 ###Version history:
 

@@ -1,6 +1,6 @@
 $(window).load(function(){
     userAppSPALogin(
-        '55944a9681b6b',
+        'Your_UserApp_appId', //Write here your UserApp appId!!!
         'ua_session_token',
         workTimer,
         {savedTimes: [], savedPeriods: [], stDate: false});
