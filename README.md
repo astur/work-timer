@@ -1,4 +1,4 @@
-#work-timer
+# work-timer
 
 Web-timer counting how much you work (or doing something else). Like sport timer for work.
 
@@ -6,11 +6,11 @@ Click "Start" when you begin to work and click "Stop" when you take break. You m
 
 Work-timer use userApp.io for server-side auth and sync. And there is no complicated statistics, no social functionality and no evil boss watching you. It's really easy thing, no rocket science.
 
-###Install
+### Install
 
-Write your UserApp appId in script.js, upload Work-timer on any static web-server and have fun.
+Since UserApp is dead, version `0.3.0` is here only for historical reasons, so use version `0.2.1`. Just upload Work-timer on any static web-server and have fun.
 
-###Version history:
+### Version history:
 
 * __v0.1.0__ "Just works".
 * __v0.1.1__ Bootstrap style.
